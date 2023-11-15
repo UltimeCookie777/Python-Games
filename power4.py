@@ -11,17 +11,17 @@ table = [['-', '-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-', '-'], ['-', '
 #table = [['-', '-', '-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-', '-', '-']]
 
 # Check if the cell below is empty
-def checkBelow(x,y):
+def checkBelow(x : int,y : int) -> bool:
     if y==5:
         return False
 
     return table[x][y+1] == emptyCell
 
 # Check if the column is full
-def checkColumn(x):
+def checkColumn(x : int) -> bool:
     return emptyCell in table[x]
 
-def printTable():
+def printTable() -> None:
     
     out = ""
     
@@ -32,7 +32,7 @@ def printTable():
     print("\n" + out)
 
 # Asking where to play
-def asking():
+def asking() -> int:
     x=0
     while True:
         
@@ -56,7 +56,7 @@ def asking():
                 print('This column is full.')
     return x
 # Add a 'color' piece in the x column
-def addPiece(color, x):
+def addPiece(color : str, x : int) -> int:
     
     y = 0
     while checkBelow(x,y):
@@ -66,11 +66,11 @@ def addPiece(color, x):
     return y
 
 # Returns the current player color
-def getColor():
+def getColor() -> str:
     return redCell if playerRound == "Red" else yellowCell
 
 # Change the current player
-def changePlayer(playerRound):
+def changePlayer(playerRound : str) -> str:
     if playerRound == "Red":
         playerRound = "Yellow"
     else:
@@ -78,7 +78,7 @@ def changePlayer(playerRound):
 
     return playerRound
 # Check for win based on the last posed piece
-def checkWin(x,y):
+def checkWin(x : int,y : int) -> bool:
     
     #Check horizontal win
     sum = 0
