@@ -19,7 +19,7 @@ def checkBelow(x,y):
 
 # Check if the column is full
 def checkColumn(x):
-    return table[x][0] == emptyCell
+    return emptyCell in table[x]
 
 def printTable():
     
@@ -49,12 +49,11 @@ def asking():
         if not(x in [c for c in range(1,8)]):
             print("Enter a number between 1 and 7.")
         else:
-            if not(checkColumn(x)):
+            if checkColumn(x-1):
+                x-=1
+                break
+            else:
                 print('This column is full.')
-                continue
-            
-            x-=1
-            break
     return x
 # Add a 'color' piece in the x column
 def addPiece(color, x):
@@ -80,7 +79,49 @@ def changePlayer(playerRound):
     return playerRound
 # Check for win based on the last posed piece
 def checkWin(x,y):
-    return
+    
+    #Check horizontal win
+    sum = 0
+    for x_ in range(0, 7):
+        if table[x_][y] == getColor():
+            sum +=1
+            if sum >= 4:
+                return True
+        else:
+            sum = 0
+    
+    # Check vertical win
+    sum = 0
+    for y_ in range(0,6):
+        if table[x][y_] == getColor():
+            sum +=1
+            if sum >= 4:
+                return True
+        else:
+            sum = 0
+    
+    # Check top left to bottom right diagonal win
+    for y1 in range(0,3):
+        for x1 in range(0,4):
+            sum = 0
+            for z1 in range(0,4):
+                if table[x1 + z1][y1 + z1] == getColor():
+                    sum +=1
+                if sum == 4:
+                    return True
+            
+    # Check top right to bottom left diagonal win
+    for y2 in range(0,3):
+        for x2 in range(3,7):
+            sum = 0
+            for z2 in range(0,4):
+                if table[x2 - z2][y2 + z2] == getColor():
+                    sum +=1
+                if sum == 4:
+                    return True
+    
+    
+    return False
 
 # Start of the game
 os.system("cls")
@@ -93,12 +134,18 @@ y = addPiece(redCell, x)
 # Running game
 while not(checkWin(x,y)):
     
+    playerRound = changePlayer(playerRound)
+    
     os.system("cls")
     print("========== Power 4 ==========")
     print(f"\n{playerRound} Player plays.\n")
     printTable()
     
-    playerRound = changePlayer(playerRound)
     x = asking()
     y = addPiece(getColor(), x)
     
+os.system('cls')
+
+print("========== Power 4 ==========")
+print(f"\n{playerRound} Player won the game!\n")
+printTable()
